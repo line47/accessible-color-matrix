@@ -30,7 +30,7 @@ type PaletteMsg =
   | Remove Int
   | Add
 
-maxPaletteEntries = 6
+maxPaletteEntries = 30
 
 updatePalette : PaletteMsg -> Palette -> Palette
 updatePalette msg palette =
@@ -178,10 +178,12 @@ paletteUl palette isEditable =
           else []
       in
         li [ classList [ ("usa-color-square", True)
+                        , ("palette-item", True)
                         , ("usa-mobile-end-row", isOdd i)
                         ]
             , style (squareBgStyle entry) ]
           (removeActions ++
+          
            [ div [ class "usa-color-inner-content" ]
              [ p [ class "usa-color-name" ] (entryName entry)
              , p [ class "usa-color-hex" ] (entryHex entry)
@@ -191,7 +193,7 @@ paletteUl palette isEditable =
     addActions : List (Html PaletteMsg)
     addActions =
       if isEditable && List.length palette < maxPaletteEntries then
-        [ li [ class "usa-color-square palette-action-add-wrapper" ]
+        [ li [ class "usa-color-square palette-item palette-action-add-wrapper" ]
             [ button [ class "usa-button-outline"
                      , ariaLabel "Add a new color"
                      , title "Add a new color"
@@ -199,7 +201,7 @@ paletteUl palette isEditable =
         ]
       else []
   in
-    ul [ classList [ ("usa-grid-full", True)
+    ul [ classList [ ("palette", True)
                     , ("usa-color-row", True)
                     , ("usa-primary-color-section", True)
                     , ("palette-is-editable", isEditable)

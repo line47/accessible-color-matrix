@@ -24,9 +24,8 @@ badContrastLegendText = """
 
 badContrastText : PaletteEntry -> PaletteEntry -> Float -> String
 badContrastText background foreground ratio =
-  "Do not use " ++ foreground.name ++ " text on " ++ background.name ++
-    " background; it is not 508-compliant, with a contrast ratio of " ++
-      (humanFriendlyContrastRatio ratio) ++ "."
+  foreground.name ++ " text is not 508-compliant, with a failing contrast ratio of " ++
+  (humanFriendlyContrastRatio ratio) ++ "."
 
 goodContrastText : PaletteEntry -> PaletteEntry -> Float -> String
 goodContrastText background foreground ratio =
@@ -48,48 +47,33 @@ capFirst str =
 matrixTableHeader : Palette -> Html msg
 matrixTableHeader palette =
   let
-    fgStyle : PaletteEntry -> List (String, String)
-    fgStyle entry =
-      [ ("color", paletteEntryHex entry) ] ++
-        if areColorsIndistinguishable entry.color white then
-          -- https://css-tricks.com/adding-stroke-to-web-text/
-          [ ("text-shadow"
-            ,"-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, " ++
-             "1px 1px 0 #000") ]
-          else []
-
     headerCell : PaletteEntry -> Html msg
     headerCell entry =
-      td [ scope "col" ]
+      li [ ]
         [ div [ class "usa-matrix-desc" ]
           [ text (capFirst entry.name)
           , text " text"
           , br [] []
           , small [] [ text (paletteEntryHex entry) ]
           ]
-        , strong [ class "usa-sr-invisible"
-                 , ariaHidden True
-                 , style (fgStyle entry) ]
-          [ text "Aa" ]
+        
         ]
   in
-    thead []
-      [ tr []
-        ([ td [ scope "col" ] [] ] ++ List.map headerCell palette)
+    div []
+      [ ul []
+        ([ li [ ] [] ] ++ List.map headerCell palette)
       ]
 
 matrixTableRow : Palette -> Html msg
 matrixTableRow palette =
   let
+
     rowHeaderCell : PaletteEntry -> Html msg
     rowHeaderCell entry =
-      td [ scope "row" ]
-        [ div []
-          [ div [ class "usa-matrix-square"
-                , style (squareBgStyle entry) ] []
-          , div [ class "usa-matrix-desc" ]
+      li [ class "grid-item grid-item-main" ]
+        [ div [ class "swatch", style (squareBgStyle entry) ]
+           [ div [ class "usa-color-inner-content" ]
             [ text (capFirst entry.name)
-            , text " background"
             , br [] []
             , small [] [ text (paletteEntryHex entry) ]
             ]
@@ -104,22 +88,14 @@ matrixTableRow palette =
 
         validCell : Html msg
         validCell =
-          td [ class "usa-matrix-valid-color-combo" ]
-            [ div [ class "usa-matrix-square"
-                  , style (squareBgStyle background)
-                  , title (goodContrastText background foreground ratio)
-                  , role "presentation" ]
-                [ strong [ class "usa-sr-invisible"
-                         , ariaHidden True
-                         , style [("color", paletteEntryHex foreground)] ]
-                    [ text "Aa" ]
-                ]
-            , div [ class "usa-matrix-color-combo-description" ]
+          li [ class "grid-item usa-matrix-valid-color-combo", style (squareBgStyle background) ]
+            [ 
+             div [ class "usa-matrix-color-combo-description", style [("color", paletteEntryHex foreground)]  ]
               [ strong [] [ text (capFirst foreground.name) ]
               , text " text on "
               , strong [] [ text (capFirst background.name) ]
               , text " background"
-              , span [ class "usa-sr-only" ]
+              , span [ class "" ]
                 [ text " is 508-compliant, with a contrast ratio of "
                 , text (humanFriendlyContrastRatio ratio)
                 , text "."
@@ -132,25 +108,25 @@ matrixTableRow palette =
           let
             desc = badContrastText background foreground ratio
           in
-            td [ class "usa-matrix-invalid-color-combo" ]
+            li [ class "grid-item usa-matrix-invalid-color-combo" ]
               [ div [ role "presentation", title desc ]
                 [ badContrastSvg "usa-matrix-square" ]
-              , div [ class "usa-sr-only" ] [ text desc ]
+              , div [ class "" ] [ text desc ]
               ]
       in
         if ratio >= 4.5 then validCell else invalidCell
 
     row : Palette -> PaletteEntry -> Html msg
     row palette background =
-      tr []
+      ul [ class "grid" ]
         ([ rowHeaderCell background ] ++
           List.map (rowComboCell background) palette)
   in
-    tbody [] (List.map (row palette) (List.reverse palette))
+    div [] (List.map (row palette) (List.reverse palette))
 
 matrixTable : Palette -> Html msg
 matrixTable palette =
-  table [ class "usa-table-borderless usa-matrix" ]
+  div [ class "usa-table-borderless usa-matrix" ]
     [ matrixTableHeader palette
     , matrixTableRow palette
     ]
