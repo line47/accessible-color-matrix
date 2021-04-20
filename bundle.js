@@ -42,7 +42,7 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -79,9 +79,9 @@
 	}
 
 
-/***/ },
+/***/ }),
 /* 1 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	
 	(function() {
@@ -1649,8 +1649,7 @@
 		var type = typeof v;
 		if (type === 'function')
 		{
-			var name = v.func ? v.func.name : v.name;
-			return '<function' + (name === '' ? '' : ':') + name + '>';
+			return '<function>';
 		}
 
 		if (type === 'boolean')
@@ -2157,6 +2156,13 @@
 	var _elm_lang$core$List$sortBy = _elm_lang$core$Native_List.sortBy;
 	var _elm_lang$core$List$sort = function (xs) {
 		return A2(_elm_lang$core$List$sortBy, _elm_lang$core$Basics$identity, xs);
+	};
+	var _elm_lang$core$List$singleton = function (value) {
+		return {
+			ctor: '::',
+			_0: value,
+			_1: {ctor: '[]'}
+		};
 	};
 	var _elm_lang$core$List$drop = F2(
 		function (n, list) {
@@ -3771,15 +3777,8 @@
 			sentBeforeInit.push(value);
 		}
 
-		function postInitSend(incomingValue)
+		function postInitSend(value)
 		{
-			var result = A2(_elm_lang$core$Json_Decode$decodeValue, converter, incomingValue);
-			if (result.ctor === 'Err')
-			{
-				throw new Error('Trying to send an unexpected type of value through port `' + name + '`:\n' + result._0);
-			}
-
-			var value = result._0;
 			var temp = subs;
 			while (temp.ctor !== '[]')
 			{
@@ -3790,7 +3789,13 @@
 
 		function send(incomingValue)
 		{
-			currentSend(incomingValue);
+			var result = A2(_elm_lang$core$Json_Decode$decodeValue, converter, incomingValue);
+			if (result.ctor === 'Err')
+			{
+				throw new Error('Trying to send an unexpected type of value through port `' + name + '`:\n' + result._0);
+			}
+
+			currentSend(result._0);
 		}
 
 		return { send: send };
@@ -4214,7 +4219,7 @@
 	function indexes(sub, str)
 	{
 		var subLen = sub.length;
-		
+
 		if (subLen < 1)
 		{
 			return _elm_lang$core$Native_List.Nil;
@@ -4227,74 +4232,78 @@
 		{
 			is.push(i);
 			i = i + subLen;
-		}	
-		
+		}
+
 		return _elm_lang$core$Native_List.fromArray(is);
 	}
+
 
 	function toInt(s)
 	{
 		var len = s.length;
+
+		// if empty
 		if (len === 0)
 		{
-			return _elm_lang$core$Result$Err("could not convert string '" + s + "' to an Int" );
+			return intErr(s);
 		}
-		var start = 0;
-		if (s[0] === '-')
+
+		// if hex
+		var c = s[0];
+		if (c === '0' && s[1] === 'x')
 		{
-			if (len === 1)
+			for (var i = 2; i < len; ++i)
 			{
-				return _elm_lang$core$Result$Err("could not convert string '" + s + "' to an Int" );
+				var c = s[i];
+				if (('0' <= c && c <= '9') || ('A' <= c && c <= 'F') || ('a' <= c && c <= 'f'))
+				{
+					continue;
+				}
+				return intErr(s);
 			}
-			start = 1;
+			return _elm_lang$core$Result$Ok(parseInt(s, 16));
 		}
-		for (var i = start; i < len; ++i)
+
+		// is decimal
+		if (c > '9' || (c < '0' && c !== '-' && c !== '+'))
+		{
+			return intErr(s);
+		}
+		for (var i = 1; i < len; ++i)
 		{
 			var c = s[i];
 			if (c < '0' || '9' < c)
 			{
-				return _elm_lang$core$Result$Err("could not convert string '" + s + "' to an Int" );
+				return intErr(s);
 			}
 		}
+
 		return _elm_lang$core$Result$Ok(parseInt(s, 10));
 	}
 
+	function intErr(s)
+	{
+		return _elm_lang$core$Result$Err("could not convert string '" + s + "' to an Int");
+	}
+
+
 	function toFloat(s)
 	{
-		var len = s.length;
-		if (len === 0)
+		// check if it is a hex, octal, or binary number
+		if (s.length === 0 || /[\sxbo]/.test(s))
 		{
-			return _elm_lang$core$Result$Err("could not convert string '" + s + "' to a Float" );
+			return floatErr(s);
 		}
-		var start = 0;
-		if (s[0] === '-')
-		{
-			if (len === 1)
-			{
-				return _elm_lang$core$Result$Err("could not convert string '" + s + "' to a Float" );
-			}
-			start = 1;
-		}
-		var dotCount = 0;
-		for (var i = start; i < len; ++i)
-		{
-			var c = s[i];
-			if ('0' <= c && c <= '9')
-			{
-				continue;
-			}
-			if (c === '.')
-			{
-				dotCount += 1;
-				if (dotCount <= 1)
-				{
-					continue;
-				}
-			}
-			return _elm_lang$core$Result$Err("could not convert string '" + s + "' to a Float" );
-		}
-		return _elm_lang$core$Result$Ok(parseFloat(s));
+		var n = +s;
+		// faster isNaN check
+		return n === n ? _elm_lang$core$Result$Ok(n) : floatErr(s);
 	}
+
+	function floatErr(s)
+	{
+		return _elm_lang$core$Result$Err("could not convert string '" + s + "' to a Float");
+	}
+
 
 	function toList(str)
 	{
@@ -5534,11 +5543,6 @@
 					problem = problem.rest;
 					break;
 
-				case 'index':
-					context += '[' + problem.index + ']';
-					problem = problem.rest;
-					break;
-
 				case 'oneOf':
 					var problems = problem.problems;
 					for (var i = 0; i < problems.length; i++)
@@ -6403,9 +6407,9 @@
 
 	function equalEvents(a, b)
 	{
-		if (!a.options === b.options)
+		if (a.options !== b.options)
 		{
-			if (a.stopPropagation !== b.stopPropagation || a.preventDefault !== b.preventDefault)
+			if (a.options.stopPropagation !== b.options.stopPropagation || a.options.preventDefault !== b.options.preventDefault)
 			{
 				return false;
 			}
@@ -7681,7 +7685,7 @@
 	var rAF =
 		typeof requestAnimationFrame !== 'undefined'
 			? requestAnimationFrame
-			: function(callback) { callback(); };
+			: function(callback) { setTimeout(callback, 1000 / 60); };
 
 	function makeStepper(domNode, view, initialVirtualNode, eventNode)
 	{
@@ -9388,7 +9392,7 @@
 	};
 
 	var _toolness$accessible_color_matrix$ContrastRatio$humanFriendlyContrastRatio = function (ratio) {
-		var numDigits = (_elm_lang$core$Native_Utils.cmp(ratio, 4) < 0) ? 1 : ((_elm_lang$core$Native_Utils.cmp(ratio, 5) < 0) ? 2 : 0);
+		var numDigits = (_elm_lang$core$Native_Utils.cmp(ratio, 8) < 0) ? 1 : ((_elm_lang$core$Native_Utils.cmp(ratio, 5) < 0) ? 2 : 0);
 		var decimalPart = function (numDigits) {
 			return _elm_lang$core$Basics$toString(
 				_elm_lang$core$Basics$floor(
@@ -9571,7 +9575,7 @@
 						});
 			}
 		});
-	var _toolness$accessible_color_matrix$Palette$maxPaletteEntries = 6;
+	var _toolness$accessible_color_matrix$Palette$maxPaletteEntries = 30;
 	var _toolness$accessible_color_matrix$Palette$deserializePalette = function (items) {
 		var entry = F2(
 			function (id, _p4) {
@@ -9615,7 +9619,7 @@
 					_elm_lang$html$Html$li,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('usa-color-square palette-action-add-wrapper'),
+						_0: _elm_lang$html$Html_Attributes$class('usa-color-square palette-item palette-action-add-wrapper'),
 						_1: {ctor: '[]'}
 					},
 					{
@@ -9855,12 +9859,16 @@
 									_0: {ctor: '_Tuple2', _0: 'usa-color-square', _1: true},
 									_1: {
 										ctor: '::',
-										_0: {
-											ctor: '_Tuple2',
-											_0: 'usa-mobile-end-row',
-											_1: isOdd(i)
-										},
-										_1: {ctor: '[]'}
+										_0: {ctor: '_Tuple2', _0: 'palette-item', _1: true},
+										_1: {
+											ctor: '::',
+											_0: {
+												ctor: '_Tuple2',
+												_0: 'usa-mobile-end-row',
+												_1: isOdd(i)
+											},
+											_1: {ctor: '[]'}
+										}
 									}
 								}),
 							_1: {
@@ -9915,7 +9923,7 @@
 					_0: _elm_lang$html$Html_Attributes$classList(
 						{
 							ctor: '::',
-							_0: {ctor: '_Tuple2', _0: 'usa-grid-full', _1: true},
+							_0: {ctor: '_Tuple2', _0: 'palette', _1: true},
 							_1: {
 								ctor: '::',
 								_0: {ctor: '_Tuple2', _0: 'usa-color-row', _1: true},
@@ -10044,36 +10052,10 @@
 			A2(_elm_lang$core$String$dropLeft, 1, str));
 	};
 	var _toolness$accessible_color_matrix$Matrix$matrixTableHeader = function (palette) {
-		var fgStyle = function (entry) {
-			return A2(
-				_elm_lang$core$Basics_ops['++'],
-				{
-					ctor: '::',
-					_0: {
-						ctor: '_Tuple2',
-						_0: 'color',
-						_1: _toolness$accessible_color_matrix$Palette$paletteEntryHex(entry)
-					},
-					_1: {ctor: '[]'}
-				},
-				A2(_toolness$accessible_color_matrix$ContrastRatio$areColorsIndistinguishable, entry.color, _elm_lang$core$Color$white) ? {
-					ctor: '::',
-					_0: {
-						ctor: '_Tuple2',
-						_0: 'text-shadow',
-						_1: A2(_elm_lang$core$Basics_ops['++'], '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, ', '1px 1px 0 #000')
-					},
-					_1: {ctor: '[]'}
-				} : {ctor: '[]'});
-		};
 		var headerCell = function (entry) {
 			return A2(
-				_elm_lang$html$Html$td,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$scope('col'),
-					_1: {ctor: '[]'}
-				},
+				_elm_lang$html$Html$li,
+				{ctor: '[]'},
 				{
 					ctor: '::',
 					_0: A2(
@@ -10112,52 +10094,24 @@
 								}
 							}
 						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$strong,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('usa-sr-invisible'),
-								_1: {
-									ctor: '::',
-									_0: _toolness$accessible_color_matrix$Accessibility$ariaHidden(true),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$style(
-											fgStyle(entry)),
-										_1: {ctor: '[]'}
-									}
-								}
-							},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text('Aa'),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}
+					_1: {ctor: '[]'}
 				});
 		};
 		return A2(
-			_elm_lang$html$Html$thead,
+			_elm_lang$html$Html$div,
 			{ctor: '[]'},
 			{
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$tr,
+					_elm_lang$html$Html$ul,
 					{ctor: '[]'},
 					A2(
 						_elm_lang$core$Basics_ops['++'],
 						{
 							ctor: '::',
 							_0: A2(
-								_elm_lang$html$Html$td,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$scope('col'),
-									_1: {ctor: '[]'}
-								},
+								_elm_lang$html$Html$li,
+								{ctor: '[]'},
 								{ctor: '[]'}),
 							_1: {ctor: '[]'}
 						},
@@ -10191,34 +10145,30 @@
 		function (background, foreground, ratio) {
 			return A2(
 				_elm_lang$core$Basics_ops['++'],
-				'Do not use ',
+				foreground.name,
 				A2(
 					_elm_lang$core$Basics_ops['++'],
-					foreground.name,
+					' text is not 508-compliant, with a failing contrast ratio of ',
 					A2(
 						_elm_lang$core$Basics_ops['++'],
-						' text on ',
-						A2(
-							_elm_lang$core$Basics_ops['++'],
-							background.name,
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								' background; it is not 508-compliant, with a contrast ratio of ',
-								A2(
-									_elm_lang$core$Basics_ops['++'],
-									_toolness$accessible_color_matrix$ContrastRatio$humanFriendlyContrastRatio(ratio),
-									'.'))))));
+						_toolness$accessible_color_matrix$ContrastRatio$humanFriendlyContrastRatio(ratio),
+						'.')));
 		});
 	var _toolness$accessible_color_matrix$Matrix$matrixTableRow = function (palette) {
 		var rowComboCell = F2(
 			function (background, foreground) {
 				var ratio = A2(_toolness$accessible_color_matrix$ContrastRatio$contrastRatio, background.color, foreground.color);
 				var validCell = A2(
-					_elm_lang$html$Html$td,
+					_elm_lang$html$Html$li,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('usa-matrix-valid-color-combo'),
-						_1: {ctor: '[]'}
+						_0: _elm_lang$html$Html_Attributes$class('grid-item usa-matrix-valid-color-combo'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$style(
+								_toolness$accessible_color_matrix$Palette$squareBgStyle(background)),
+							_1: {ctor: '[]'}
+						}
 					},
 					{
 						ctor: '::',
@@ -10226,132 +10176,116 @@
 							_elm_lang$html$Html$div,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('usa-matrix-square'),
+								_0: _elm_lang$html$Html_Attributes$class('usa-matrix-color-combo-description'),
 								_1: {
 									ctor: '::',
 									_0: _elm_lang$html$Html_Attributes$style(
-										_toolness$accessible_color_matrix$Palette$squareBgStyle(background)),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$title(
-											A3(_toolness$accessible_color_matrix$Matrix$goodContrastText, background, foreground, ratio)),
-										_1: {
+										{
 											ctor: '::',
-											_0: _toolness$accessible_color_matrix$Accessibility$role('presentation'),
+											_0: {
+												ctor: '_Tuple2',
+												_0: 'color',
+												_1: _toolness$accessible_color_matrix$Palette$paletteEntryHex(foreground)
+											},
 											_1: {ctor: '[]'}
-										}
-									}
+										}),
+									_1: {ctor: '[]'}
 								}
 							},
 							{
 								ctor: '::',
 								_0: A2(
 									_elm_lang$html$Html$strong,
+									{ctor: '[]'},
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('usa-sr-invisible'),
-										_1: {
-											ctor: '::',
-											_0: _toolness$accessible_color_matrix$Accessibility$ariaHidden(true),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$style(
-													{
-														ctor: '::',
-														_0: {
-															ctor: '_Tuple2',
-															_0: 'color',
-															_1: _toolness$accessible_color_matrix$Palette$paletteEntryHex(foreground)
-														},
-														_1: {ctor: '[]'}
-													}),
-												_1: {ctor: '[]'}
-											}
-										}
-									},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text('Aa'),
+										_0: _elm_lang$html$Html$text(
+											_toolness$accessible_color_matrix$Matrix$capFirst(foreground.name)),
 										_1: {ctor: '[]'}
 									}),
-								_1: {ctor: '[]'}
-							}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$div,
-								{
+								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('usa-matrix-color-combo-description'),
-									_1: {ctor: '[]'}
-								},
-								{
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$strong,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html$text(
-												_toolness$accessible_color_matrix$Matrix$capFirst(foreground.name)),
-											_1: {ctor: '[]'}
-										}),
+									_0: _elm_lang$html$Html$text(' text '),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html$text(' text on '),
+										_0: A2(
+											_elm_lang$html$Html$span,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text(
+													_toolness$accessible_color_matrix$Palette$paletteEntryHex(foreground)),
+												_1: {ctor: '[]'}
+											}),
 										_1: {
 											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$strong,
-												{ctor: '[]'},
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html$text(
-														_toolness$accessible_color_matrix$Matrix$capFirst(background.name)),
-													_1: {ctor: '[]'}
-												}),
+											_0: _elm_lang$html$Html$text(' on '),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html$text(' background'),
+												_0: A2(
+													_elm_lang$html$Html$strong,
+													{ctor: '[]'},
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html$text(
+															_toolness$accessible_color_matrix$Matrix$capFirst(background.name)),
+														_1: {ctor: '[]'}
+													}),
 												_1: {
 													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$span,
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$class('usa-sr-only'),
-															_1: {ctor: '[]'}
-														},
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html$text(' is 508-compliant, with a contrast ratio of '),
-															_1: {
+													_0: _elm_lang$html$Html$text(' background '),
+													_1: {
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$span,
+															{ctor: '[]'},
+															{
 																ctor: '::',
 																_0: _elm_lang$html$Html$text(
-																	_toolness$accessible_color_matrix$ContrastRatio$humanFriendlyContrastRatio(ratio)),
-																_1: {
+																	_toolness$accessible_color_matrix$Palette$paletteEntryHex(background)),
+																_1: {ctor: '[]'}
+															}),
+														_1: {
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$span,
+																{
 																	ctor: '::',
-																	_0: _elm_lang$html$Html$text('.'),
+																	_0: _elm_lang$html$Html_Attributes$class(''),
 																	_1: {ctor: '[]'}
-																}
-															}
-														}),
-													_1: {ctor: '[]'}
+																},
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html$text('  has a contrast ratio of '),
+																	_1: {
+																		ctor: '::',
+																		_0: _elm_lang$html$Html$text(
+																			_toolness$accessible_color_matrix$ContrastRatio$humanFriendlyContrastRatio(ratio)),
+																		_1: {
+																			ctor: '::',
+																			_0: _elm_lang$html$Html$text('.'),
+																			_1: {ctor: '[]'}
+																		}
+																	}
+																}),
+															_1: {ctor: '[]'}
+														}
+													}
 												}
 											}
 										}
 									}
-								}),
-							_1: {ctor: '[]'}
-						}
+								}
+							}),
+						_1: {ctor: '[]'}
 					});
 				var invalidCell = function () {
 					var desc = A3(_toolness$accessible_color_matrix$Matrix$badContrastText, background, foreground, ratio);
 					return A2(
-						_elm_lang$html$Html$td,
+						_elm_lang$html$Html$li,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('usa-matrix-invalid-color-combo'),
+							_0: _elm_lang$html$Html_Attributes$class('grid-item usa-matrix-invalid-color-combo'),
 							_1: {ctor: '[]'}
 						},
 						{
@@ -10378,7 +10312,7 @@
 									_elm_lang$html$Html$div,
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('usa-sr-only'),
+										_0: _elm_lang$html$Html_Attributes$class(''),
 										_1: {ctor: '[]'}
 									},
 									{
@@ -10394,72 +10328,61 @@
 			});
 		var rowHeaderCell = function (entry) {
 			return A2(
-				_elm_lang$html$Html$td,
+				_elm_lang$html$Html$li,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$scope('row'),
+					_0: _elm_lang$html$Html_Attributes$class('grid-item grid-item-main'),
 					_1: {ctor: '[]'}
 				},
 				{
 					ctor: '::',
 					_0: A2(
 						_elm_lang$html$Html$div,
-						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('swatch'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$style(
+									_toolness$accessible_color_matrix$Palette$squareBgStyle(entry)),
+								_1: {ctor: '[]'}
+							}
+						},
 						{
 							ctor: '::',
 							_0: A2(
 								_elm_lang$html$Html$div,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('usa-matrix-square'),
+									_0: _elm_lang$html$Html_Attributes$class('usa-color-inner-content'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(
+										_toolness$accessible_color_matrix$Matrix$capFirst(entry.name)),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$style(
-											_toolness$accessible_color_matrix$Palette$squareBgStyle(entry)),
-										_1: {ctor: '[]'}
-									}
-								},
-								{ctor: '[]'}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$div,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('usa-matrix-desc'),
-										_1: {ctor: '[]'}
-									},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text(
-											_toolness$accessible_color_matrix$Matrix$capFirst(entry.name)),
+										_0: A2(
+											_elm_lang$html$Html$br,
+											{ctor: '[]'},
+											{ctor: '[]'}),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html$text(' background'),
-											_1: {
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$br,
-													{ctor: '[]'},
-													{ctor: '[]'}),
-												_1: {
+											_0: A2(
+												_elm_lang$html$Html$small,
+												{ctor: '[]'},
+												{
 													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$small,
-														{ctor: '[]'},
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html$text(
-																_toolness$accessible_color_matrix$Palette$paletteEntryHex(entry)),
-															_1: {ctor: '[]'}
-														}),
+													_0: _elm_lang$html$Html$text(
+														_toolness$accessible_color_matrix$Palette$paletteEntryHex(entry)),
 													_1: {ctor: '[]'}
-												}
-											}
+												}),
+											_1: {ctor: '[]'}
 										}
-									}),
-								_1: {ctor: '[]'}
-							}
+									}
+								}),
+							_1: {ctor: '[]'}
 						}),
 					_1: {ctor: '[]'}
 				});
@@ -10467,8 +10390,12 @@
 		var row = F2(
 			function (palette, background) {
 				return A2(
-					_elm_lang$html$Html$tr,
-					{ctor: '[]'},
+					_elm_lang$html$Html$ul,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('grid'),
+						_1: {ctor: '[]'}
+					},
 					A2(
 						_elm_lang$core$Basics_ops['++'],
 						{
@@ -10482,7 +10409,7 @@
 							palette)));
 			});
 		return A2(
-			_elm_lang$html$Html$tbody,
+			_elm_lang$html$Html$div,
 			{ctor: '[]'},
 			A2(
 				_elm_lang$core$List$map,
@@ -10491,7 +10418,7 @@
 	};
 	var _toolness$accessible_color_matrix$Matrix$matrixTable = function (palette) {
 		return A2(
-			_elm_lang$html$Html$table,
+			_elm_lang$html$Html$div,
 			{
 				ctor: '::',
 				_0: _elm_lang$html$Html_Attributes$class('usa-table-borderless usa-matrix'),
@@ -10563,19 +10490,19 @@
 		_0: {ctor: '_Tuple2', _0: 'white', _1: 'ffffff'},
 		_1: {
 			ctor: '::',
-			_0: {ctor: '_Tuple2', _0: 'light', _1: 'b3efff'},
+			_0: {ctor: '_Tuple2', _0: 'base', _1: '212121'},
 			_1: {
 				ctor: '::',
-				_0: {ctor: '_Tuple2', _0: 'bright', _1: '00cfff'},
+				_0: {ctor: '_Tuple2', _0: 'primary', _1: '0071BC'},
 				_1: {
 					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: 'medium', _1: '046b99'},
+					_0: {ctor: '_Tuple2', _0: 'success', _1: '2E8540'},
 					_1: {
 						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'dark', _1: '1c304a'},
+						_0: {ctor: '_Tuple2', _0: 'warn', _1: 'FDB81E'},
 						_1: {
 							ctor: '::',
-							_0: {ctor: '_Tuple2', _0: 'black', _1: '000000'},
+							_0: {ctor: '_Tuple2', _0: 'error', _1: 'E31C3D'},
 							_1: {ctor: '[]'}
 						}
 					}
@@ -10888,9 +10815,9 @@
 
 
 
-/***/ },
+/***/ }),
 /* 2 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	var querystring = __webpack_require__(3);
 
@@ -10939,9 +10866,9 @@
 	};
 
 
-/***/ },
+/***/ }),
 /* 3 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -10949,9 +10876,9 @@
 	exports.encode = exports.stringify = __webpack_require__(5);
 
 
-/***/ },
+/***/ }),
 /* 4 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
 	//
@@ -11035,9 +10962,9 @@
 	};
 
 
-/***/ },
+/***/ }),
 /* 5 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
 	//
@@ -11105,9 +11032,9 @@
 	};
 
 
-/***/ },
+/***/ }),
 /* 6 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	exports.init = function init(main) {
 	  // Elm's apparent lack of virtual DOM lifecycle management
@@ -11148,9 +11075,9 @@
 	};
 
 
-/***/ },
+/***/ }),
 /* 7 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	var FAVICON_WIDTH = 16;
 	var FAVICON_SQUARES_PER_SIDE = 4;
@@ -11211,5 +11138,5 @@
 	module.exports = setFavicon;
 
 
-/***/ }
+/***/ })
 /******/ ]);
