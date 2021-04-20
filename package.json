@@ -5,8 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "deploy": "git subtree push --prefix docs origin gh-pages",
-    "start": "webpack-dev-server --port 3000 --host 0.0.0.0 --content-base docs/"
+    "deploy": "git subtree push --prefix static origin gh-pages",
+    "start": "webpack-dev-server --port 3000 --host 0.0.0.0 --content-base static/"
   },
   "repository": {
     "type": "git",

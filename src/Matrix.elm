@@ -24,7 +24,7 @@ badContrastLegendText = """
 
 badContrastText : PaletteEntry -> PaletteEntry -> Float -> String
 badContrastText background foreground ratio =
-  foreground.name ++ " text is not 508-compliant, with a failing contrast ratio of " ++
+  foreground.name ++ " text is not compliant, with a failing contrast ratio of " ++
   (humanFriendlyContrastRatio ratio) ++ "."
 
 goodContrastText : PaletteEntry -> PaletteEntry -> Float -> String
@@ -35,8 +35,7 @@ goodContrastText background foreground ratio =
 legend : Html msg
 legend =
   div [ class "usa-matrix-legend" ]
-    [ badContrastSvg ""
-    , p [ class "usa-sr-invisible", ariaHidden True ]
+    [  p [ class "usa-sr-invisible", ariaHidden True ]
         [ Html.text badContrastLegendText ]
     ]
 
@@ -44,24 +43,20 @@ capFirst : String -> String
 capFirst str =
   (String.toUpper (String.left 1 str)) ++ (String.dropLeft 1 str)
 
-matrixTableHeader : Palette -> Html msg
+
 matrixTableHeader palette =
   let
     headerCell : PaletteEntry -> Html msg
     headerCell entry =
       li [ ]
-        [ div [ class "usa-matrix-desc" ]
-          [ text (capFirst entry.name)
-          , text " text"
-          , br [] []
-          , small [] [ text (paletteEntryHex entry) ]
+        [ div [ ]
+          [ 
           ]
         
         ]
   in
     div []
-      [ ul []
-        ([ li [ ] [] ] ++ List.map headerCell palette)
+      [ 
       ]
 
 matrixTableRow : Palette -> Html msg
@@ -74,6 +69,7 @@ matrixTableRow palette =
         [ div [ class "swatch", style (squareBgStyle entry) ]
            [ div [ class "usa-color-inner-content" ]
             [ text (capFirst entry.name)
+            , text " background "
             , br [] []
             , small [] [ text (paletteEntryHex entry) ]
             ]
@@ -91,12 +87,17 @@ matrixTableRow palette =
           li [ class "grid-item usa-matrix-valid-color-combo", style (squareBgStyle background) ]
             [ 
              div [ class "usa-matrix-color-combo-description", style [("color", paletteEntryHex foreground)]  ]
-              [ strong [] [ text (capFirst foreground.name) ]
-              , text " text on "
-              , strong [] [ text (capFirst background.name) ]
-              , text " background"
+              [ text (capFirst foreground.name) 
+              , text " text "
+              , span [] [ text (paletteEntryHex foreground) ]
+              , text " on "
+              , br [] []
+              , text (capFirst background.name) 
+              , text " background "
+              , span [] [ text (paletteEntryHex background) ]
+              , br [] []
               , span [ class "" ]
-                [ text " is 508-compliant, with a contrast ratio of "
+                [ text "  has a contrast ratio of "
                 , text (humanFriendlyContrastRatio ratio)
                 , text "."
                 ]
@@ -109,9 +110,17 @@ matrixTableRow palette =
             desc = badContrastText background foreground ratio
           in
             li [ class "grid-item usa-matrix-invalid-color-combo" ]
-              [ div [ role "presentation", title desc ]
-                [ badContrastSvg "usa-matrix-square" ]
-              , div [ class "" ] [ text desc ]
+              [ div [ class "" ] [  ]
+                , span [] [ text (capFirst foreground.name) ]
+                , text " text "
+                , span [] [ text (paletteEntryHex foreground) ]
+                , text " on "
+                , br [] []
+                , text (capFirst background.name) 
+                , text " background "
+                , span [] [ text (paletteEntryHex background) ]
+                , br [] []
+                , text "fails contrast requirements."
               ]
       in
         if ratio >= 4.5 then validCell else invalidCell
