@@ -10044,13 +10044,6 @@
 			_1: {ctor: '[]'}
 		});
 
-	var _toolness$accessible_color_matrix$Matrix$capFirst = function (str) {
-		return A2(
-			_elm_lang$core$Basics_ops['++'],
-			_elm_lang$core$String$toUpper(
-				A2(_elm_lang$core$String$left, 1, str)),
-			A2(_elm_lang$core$String$dropLeft, 1, str));
-	};
 	var _toolness$accessible_color_matrix$Matrix$matrixTableHeader = function (palette) {
 		var headerCell = function (entry) {
 			return A2(
@@ -10060,64 +10053,22 @@
 					ctor: '::',
 					_0: A2(
 						_elm_lang$html$Html$div,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('usa-matrix-desc'),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(
-								_toolness$accessible_color_matrix$Matrix$capFirst(entry.name)),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html$text(' text'),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$br,
-										{ctor: '[]'},
-										{ctor: '[]'}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$small,
-											{ctor: '[]'},
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html$text(
-													_toolness$accessible_color_matrix$Palette$paletteEntryHex(entry)),
-												_1: {ctor: '[]'}
-											}),
-										_1: {ctor: '[]'}
-									}
-								}
-							}
-						}),
+						{ctor: '[]'},
+						{ctor: '[]'}),
 					_1: {ctor: '[]'}
 				});
 		};
 		return A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$ul,
-					{ctor: '[]'},
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$li,
-								{ctor: '[]'},
-								{ctor: '[]'}),
-							_1: {ctor: '[]'}
-						},
-						A2(_elm_lang$core$List$map, headerCell, palette))),
-				_1: {ctor: '[]'}
-			});
+			{ctor: '[]'});
+	};
+	var _toolness$accessible_color_matrix$Matrix$capFirst = function (str) {
+		return A2(
+			_elm_lang$core$Basics_ops['++'],
+			_elm_lang$core$String$toUpper(
+				A2(_elm_lang$core$String$left, 1, str)),
+			A2(_elm_lang$core$String$dropLeft, 1, str));
 	};
 	var _toolness$accessible_color_matrix$Matrix$goodContrastText = F3(
 		function (background, foreground, ratio) {
@@ -10148,7 +10099,7 @@
 				foreground.name,
 				A2(
 					_elm_lang$core$Basics_ops['++'],
-					' text is not 508-compliant, with a failing contrast ratio of ',
+					' text is not compliant, with a failing contrast ratio of ',
 					A2(
 						_elm_lang$core$Basics_ops['++'],
 						_toolness$accessible_color_matrix$ContrastRatio$humanFriendlyContrastRatio(ratio),
@@ -10194,8 +10145,114 @@
 							},
 							{
 								ctor: '::',
+								_0: _elm_lang$html$Html$text(
+									_toolness$accessible_color_matrix$Matrix$capFirst(foreground.name)),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(' text '),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$span,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text(
+													_toolness$accessible_color_matrix$Palette$paletteEntryHex(foreground)),
+												_1: {ctor: '[]'}
+											}),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html$text(' on '),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$br,
+													{ctor: '[]'},
+													{ctor: '[]'}),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html$text(
+														_toolness$accessible_color_matrix$Matrix$capFirst(background.name)),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html$text(' background '),
+														_1: {
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$span,
+																{ctor: '[]'},
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html$text(
+																		_toolness$accessible_color_matrix$Palette$paletteEntryHex(background)),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$br,
+																	{ctor: '[]'},
+																	{ctor: '[]'}),
+																_1: {
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$span,
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Attributes$class(''),
+																			_1: {ctor: '[]'}
+																		},
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html$text('  has a contrast ratio of '),
+																			_1: {
+																				ctor: '::',
+																				_0: _elm_lang$html$Html$text(
+																					_toolness$accessible_color_matrix$ContrastRatio$humanFriendlyContrastRatio(ratio)),
+																				_1: {
+																					ctor: '::',
+																					_0: _elm_lang$html$Html$text('.'),
+																					_1: {ctor: '[]'}
+																				}
+																			}
+																		}),
+																	_1: {ctor: '[]'}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}),
+						_1: {ctor: '[]'}
+					});
+				var invalidCell = function () {
+					var desc = A3(_toolness$accessible_color_matrix$Matrix$badContrastText, background, foreground, ratio);
+					return A2(
+						_elm_lang$html$Html$li,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('grid-item usa-matrix-invalid-color-combo'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class(''),
+									_1: {ctor: '[]'}
+								},
+								{ctor: '[]'}),
+							_1: {
+								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$strong,
+									_elm_lang$html$Html$span,
 									{ctor: '[]'},
 									{
 										ctor: '::',
@@ -10223,52 +10280,39 @@
 											_1: {
 												ctor: '::',
 												_0: A2(
-													_elm_lang$html$Html$strong,
+													_elm_lang$html$Html$br,
 													{ctor: '[]'},
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html$text(
-															_toolness$accessible_color_matrix$Matrix$capFirst(background.name)),
-														_1: {ctor: '[]'}
-													}),
+													{ctor: '[]'}),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html$text(' background '),
+													_0: _elm_lang$html$Html$text(
+														_toolness$accessible_color_matrix$Matrix$capFirst(background.name)),
 													_1: {
 														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$span,
-															{ctor: '[]'},
-															{
-																ctor: '::',
-																_0: _elm_lang$html$Html$text(
-																	_toolness$accessible_color_matrix$Palette$paletteEntryHex(background)),
-																_1: {ctor: '[]'}
-															}),
+														_0: _elm_lang$html$Html$text(' background '),
 														_1: {
 															ctor: '::',
 															_0: A2(
 																_elm_lang$html$Html$span,
+																{ctor: '[]'},
 																{
 																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$class(''),
+																	_0: _elm_lang$html$Html$text(
+																		_toolness$accessible_color_matrix$Palette$paletteEntryHex(background)),
 																	_1: {ctor: '[]'}
-																},
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text('  has a contrast ratio of '),
-																	_1: {
-																		ctor: '::',
-																		_0: _elm_lang$html$Html$text(
-																			_toolness$accessible_color_matrix$ContrastRatio$humanFriendlyContrastRatio(ratio)),
-																		_1: {
-																			ctor: '::',
-																			_0: _elm_lang$html$Html$text('.'),
-																			_1: {ctor: '[]'}
-																		}
-																	}
 																}),
-															_1: {ctor: '[]'}
+															_1: {
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$br,
+																	{ctor: '[]'},
+																	{ctor: '[]'}),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html$text('fails contrast requirements.'),
+																	_1: {ctor: '[]'}
+																}
+															}
 														}
 													}
 												}
@@ -10276,51 +10320,6 @@
 										}
 									}
 								}
-							}),
-						_1: {ctor: '[]'}
-					});
-				var invalidCell = function () {
-					var desc = A3(_toolness$accessible_color_matrix$Matrix$badContrastText, background, foreground, ratio);
-					return A2(
-						_elm_lang$html$Html$li,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('grid-item usa-matrix-invalid-color-combo'),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$div,
-								{
-									ctor: '::',
-									_0: _toolness$accessible_color_matrix$Accessibility$role('presentation'),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$title(desc),
-										_1: {ctor: '[]'}
-									}
-								},
-								{
-									ctor: '::',
-									_0: _toolness$accessible_color_matrix$Symbols$badContrastSvg('usa-matrix-square'),
-									_1: {ctor: '[]'}
-								}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$div,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class(''),
-										_1: {ctor: '[]'}
-									},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text(desc),
-										_1: {ctor: '[]'}
-									}),
-								_1: {ctor: '[]'}
 							}
 						});
 				}();
@@ -10363,22 +10362,26 @@
 										_toolness$accessible_color_matrix$Matrix$capFirst(entry.name)),
 									_1: {
 										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$br,
-											{ctor: '[]'},
-											{ctor: '[]'}),
+										_0: _elm_lang$html$Html$text(' background '),
 										_1: {
 											ctor: '::',
 											_0: A2(
-												_elm_lang$html$Html$small,
+												_elm_lang$html$Html$br,
 												{ctor: '[]'},
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html$text(
-														_toolness$accessible_color_matrix$Palette$paletteEntryHex(entry)),
-													_1: {ctor: '[]'}
-												}),
-											_1: {ctor: '[]'}
+												{ctor: '[]'}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$small,
+													{ctor: '[]'},
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html$text(
+															_toolness$accessible_color_matrix$Palette$paletteEntryHex(entry)),
+														_1: {ctor: '[]'}
+													}),
+												_1: {ctor: '[]'}
+											}
 										}
 									}
 								}),
@@ -10444,27 +10447,23 @@
 		},
 		{
 			ctor: '::',
-			_0: _toolness$accessible_color_matrix$Symbols$badContrastSvg(''),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$p,
-					{
+			_0: A2(
+				_elm_lang$html$Html$p,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('usa-sr-invisible'),
+					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('usa-sr-invisible'),
-						_1: {
-							ctor: '::',
-							_0: _toolness$accessible_color_matrix$Accessibility$ariaHidden(true),
-							_1: {ctor: '[]'}
-						}
-					},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(_toolness$accessible_color_matrix$Matrix$badContrastLegendText),
+						_0: _toolness$accessible_color_matrix$Accessibility$ariaHidden(true),
 						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			}
+					}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(_toolness$accessible_color_matrix$Matrix$badContrastLegendText),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
 		});
 	var _toolness$accessible_color_matrix$Matrix$matrixDiv = function (palette) {
 		return A2(
@@ -10490,21 +10489,17 @@
 		_0: {ctor: '_Tuple2', _0: 'white', _1: 'ffffff'},
 		_1: {
 			ctor: '::',
-			_0: {ctor: '_Tuple2', _0: 'base', _1: '212121'},
+			_0: {ctor: '_Tuple2', _0: 'gray-lightest', _1: 'D6D7D9'},
 			_1: {
 				ctor: '::',
-				_0: {ctor: '_Tuple2', _0: 'primary', _1: '0071BC'},
+				_0: {ctor: '_Tuple2', _0: 'primary-alt-lightest', _1: 'E1F3F8'},
 				_1: {
 					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: 'success', _1: '2E8540'},
+					_0: {ctor: '_Tuple2', _0: 'inverse', _1: '112E51'},
 					_1: {
 						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'warn', _1: 'FDB81E'},
-						_1: {
-							ctor: '::',
-							_0: {ctor: '_Tuple2', _0: 'error', _1: 'E31C3D'},
-							_1: {ctor: '[]'}
-						}
+						_0: {ctor: '_Tuple2', _0: 'primary', _1: '0071BC'},
+						_1: {ctor: '[]'}
 					}
 				}
 			}
