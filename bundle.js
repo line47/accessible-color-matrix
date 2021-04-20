@@ -9392,7 +9392,7 @@
 	};
 
 	var _toolness$accessible_color_matrix$ContrastRatio$humanFriendlyContrastRatio = function (ratio) {
-		var numDigits = (_elm_lang$core$Native_Utils.cmp(ratio, 8) < 0) ? 1 : ((_elm_lang$core$Native_Utils.cmp(ratio, 5) < 0) ? 2 : 0);
+		var numDigits = (_elm_lang$core$Native_Utils.cmp(ratio, 8) < 0) ? 2 : ((_elm_lang$core$Native_Utils.cmp(ratio, 5) < 0) ? 1 : 0);
 		var decimalPart = function (numDigits) {
 			return _elm_lang$core$Basics$toString(
 				_elm_lang$core$Basics$floor(
@@ -10309,8 +10309,13 @@
 																	{ctor: '[]'}),
 																_1: {
 																	ctor: '::',
-																	_0: _elm_lang$html$Html$text('fails contrast requirements.'),
-																	_1: {ctor: '[]'}
+																	_0: _elm_lang$html$Html$text('fails with a contrast ratio of '),
+																	_1: {
+																		ctor: '::',
+																		_0: _elm_lang$html$Html$text(
+																			_toolness$accessible_color_matrix$ContrastRatio$humanFriendlyContrastRatio(ratio)),
+																		_1: {ctor: '[]'}
+																	}
 																}
 															}
 														}
