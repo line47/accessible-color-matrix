@@ -59,7 +59,7 @@ actions model =
                , class "usa-button-secondary" ] [ text "Cancel" ]
       ]
   in
-    div [ class "usa-grid-full usa-color-row" ]
+    div [ ]
       (if model.isEditing then saveOrCancel else edit)
 
 view : Model -> Html Message

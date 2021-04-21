@@ -45,7 +45,13 @@ humanFriendlyContrastRatio ratio =
     decimalPart numDigits =
       toString (floor ((ratio - (toFloat (floor ratio))) * 10 ^ numDigits))
     numDigits =
-      if ratio < 8 then 1 else if ratio < 5 then 2 else 0
+      if ratio < 4 then 
+        1 
+      else 
+        if ratio < 5 then 
+        2 
+      else 
+        0
   in
     intPart ++
       (if numDigits > 0 then "." ++ decimalPart numDigits else "") ++

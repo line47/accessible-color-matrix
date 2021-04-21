@@ -15,8 +15,8 @@ import Palette exposing (
 
 badContrastLegendText : String
 badContrastLegendText = """
-  Please don't use these color combinations; they do not meet a color
-  contrast ratio of 4.5:1, so they do not conform with the standards of
+  Please don't use these color combinations; they do not meet a 3:1 color
+  contrast ratio, so they do not conform with the standards of
   Section 508 for body text. This means that some people would have
   difficulty reading the text. Employing accessibility best practices
   improves the user experience for all users.
@@ -82,9 +82,9 @@ matrixTableRow palette =
         ratio : Float
         ratio = contrastRatio background.color foreground.color
 
-        validCell : Html msg
-        validCell =
-          li [ class "grid-item usa-matrix-valid-color-combo", style (squareBgStyle background) ]
+        fourFiveValidCell : Html msg
+        fourFiveValidCell =
+          li [ class "grid-item usa-matrix-valid-color-combo valid-4-5", style (squareBgStyle background) ]
             [ 
              div [ class "usa-matrix-color-combo-description", style [("color", paletteEntryHex foreground)]  ]
               [ text (capFirst foreground.name) 
@@ -104,6 +104,29 @@ matrixTableRow palette =
               ]
             ]
 
+        threeOneValidCell : Html msg
+        threeOneValidCell =
+          li [ class "grid-item usa-matrix-valid-color-combo valid-3-1", style (squareBgStyle background) ]
+            [ 
+             div [ class "usa-matrix-color-combo-description", style [("color", paletteEntryHex foreground)]  ]
+              [ text (capFirst foreground.name) 
+              , text " text "
+              , span [] [ text (paletteEntryHex foreground) ]
+              , text " on "
+              , br [] []
+              , text (capFirst background.name) 
+              , text " background "
+              , span [] [ text (paletteEntryHex background) ]
+              , br [] []
+              , span [ class "" ]
+                [ text "  has a contrast ratio of "
+                , text (humanFriendlyContrastRatio ratio)
+                , text "."
+                ]
+              ]
+            ]
+
+
         invalidCell : Html msg
         invalidCell =
           let
@@ -120,10 +143,15 @@ matrixTableRow palette =
                 , text " background "
                 , span [] [ text (paletteEntryHex background) ]
                 , br [] []
-                , text "fails contrast requirements."
+                , text "fails with a contrast ratio of "
+                , text (humanFriendlyContrastRatio ratio)
               ]
       in
-        if ratio >= 4.5 then validCell else invalidCell
+        if ratio >= 4.5 then 
+            fourFiveValidCell  
+          else if (ratio >= 3.1) && (ratio < 4.5) then 
+            threeOneValidCell else 
+          invalidCell
 
     row : Palette -> PaletteEntry -> Html msg
     row palette background =

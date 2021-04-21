@@ -2249,11 +2249,6 @@ h2.styleguide-header {
 .usa-primary-color-section {
   margin-bottom: 0;
 }
-@media screen and (min-width: 600px) {
-  .usa-primary-color-section {
-    margin-bottom: 8rem;
-  }
-}
 
 .usa-color-inner-content {
   padding: 8px;
@@ -2536,6 +2531,8 @@ td[scope='row'] > div .usa-matrix-desc {
   display: grid;
   grid-template-columns: auto;
   justify-content: start;
+  grid-template-columns: 40px 50px auto 50px 40px;
+  grid-template-rows: 25% 100px auto;
 }
 .grid-item {
   list-style: none;
@@ -2545,7 +2542,6 @@ td[scope='row'] > div .usa-matrix-desc {
 }
 
 .grid-item-main {
-  grid-column: 1 / 5;
   border-color: transparent;
   font-size: 1em;
   font-weight: bold;
@@ -2557,22 +2553,22 @@ td[scope='row'] > div .usa-matrix-desc {
 .usa-matrix-valid-color-combo {
   position: relative;
   box-shadow: rgb(174 176 181) 0px 0px 0px 1px inset;
-  padding-left: 4rem;
+  padding-top: 3rem;
 }
 
 .usa-matrix-invalid-color-combo:after,
 .usa-matrix-valid-color-combo:after {
   position: absolute;
-  content: 'X';
+  content: '✖ Fails';
   color: white;
   font-weight: 700;
-  font-size: 20px;
+  font-size: 16px;
   top: 0;
   background: red;
-  width: 30px;
-  height: 100%;
-  text-align: center;
+  width: 100%;
+  text-align: left;
   left: 0;
+  padding-left: 1rem;
 }
 
 .usa-matrix-desc {
@@ -2586,7 +2582,11 @@ td[scope='row'] > div .usa-matrix-desc {
   width: 200px;
 }
 
-.usa-matrix-valid-color-combo:after {
-  content: '✓';
+.valid-3-1:after {
+  content: '✔ Passes 3.1';
+  background: green;
+}
+.valid-4-5:after {
+  content: '✔ Passes 4.5';
   background: green;
 }
