@@ -40,19 +40,24 @@ humanFriendlyContrastRatio ratio =
   -- Um, Elm doesn't seem to have any built-in functionality
   -- for formatting floats to strings, so I guess we'll have
   -- to improvise...
+
   let
-    intPart = toString (floor ratio)
+    expanded = toString(floor(ratio * 10^2))
     decimalPart numDigits =
       toString (floor ((ratio - (toFloat (floor ratio))) * 10 ^ numDigits))
     numDigits =
       if ratio < 4 then 
-        1 
+        2 
       else 
         if ratio < 5 then 
         2 
       else 
-        0
+        2
   in
-    intPart ++
-      (if numDigits > 0 then "." ++ decimalPart numDigits else "") ++
-        ":1"
+    (if numDigits > 0 then 
+    String.slice 0 -2 expanded ++ "." ++ String.slice -2 (String.length expanded) expanded 
+      else 
+         "") ++
+       ":1"
+
+    

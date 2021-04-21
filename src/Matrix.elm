@@ -15,9 +15,8 @@ import Palette exposing (
 
 badContrastLegendText : String
 badContrastLegendText = """
-  Please don't use these color combinations; they do not meet a 3:1 color
-  contrast ratio, so they do not conform with the standards of
-  Section 508 for body text. This means that some people would have
+  Please don't use these color combinations; they do not meet a 3.1 color
+  contrast ratio. This means that some people would have
   difficulty reading the text. Employing accessibility best practices
   improves the user experience for all users.
 """
@@ -88,18 +87,16 @@ matrixTableRow palette =
             [ 
              div [ class "usa-matrix-color-combo-description", style [("color", paletteEntryHex foreground)]  ]
               [ text (capFirst foreground.name) 
-              , text " text "
+              , text ": "
               , span [] [ text (paletteEntryHex foreground) ]
-              , text " on "
               , br [] []
               , text (capFirst background.name) 
-              , text " background "
+              , text ": "
               , span [] [ text (paletteEntryHex background) ]
               , br [] []
               , span [ class "" ]
-                [ text "  has a contrast ratio of "
+                [ text "Ratio: "
                 , text (humanFriendlyContrastRatio ratio)
-                , text "."
                 ]
               ]
             ]
@@ -109,19 +106,17 @@ matrixTableRow palette =
           li [ class "grid-item usa-matrix-valid-color-combo valid-3-1", style (squareBgStyle background) ]
             [ 
              div [ class "usa-matrix-color-combo-description", style [("color", paletteEntryHex foreground)]  ]
-              [ text (capFirst foreground.name) 
-              , text " text "
+             [ text (capFirst foreground.name) 
+              , text ": "
               , span [] [ text (paletteEntryHex foreground) ]
-              , text " on "
               , br [] []
               , text (capFirst background.name) 
-              , text " background "
+              , text ": "
               , span [] [ text (paletteEntryHex background) ]
               , br [] []
               , span [ class "" ]
-                [ text "  has a contrast ratio of "
+                [ text "Ratio: "
                 , text (humanFriendlyContrastRatio ratio)
-                , text "."
                 ]
               ]
             ]
@@ -133,18 +128,18 @@ matrixTableRow palette =
             desc = badContrastText background foreground ratio
           in
             li [ class "grid-item usa-matrix-invalid-color-combo" ]
-              [ div [ class "" ] [  ]
-                , span [] [ text (capFirst foreground.name) ]
-                , text " text "
-                , span [] [ text (paletteEntryHex foreground) ]
-                , text " on "
-                , br [] []
-                , text (capFirst background.name) 
-                , text " background "
-                , span [] [ text (paletteEntryHex background) ]
-                , br [] []
-                , text "fails with a contrast ratio of "
+               [ text (capFirst foreground.name) 
+              , text ": "
+              , span [] [ text (paletteEntryHex foreground) ]
+              , br [] []
+              , text (capFirst background.name) 
+              , text ": "
+              , span [] [ text (paletteEntryHex background) ]
+              , br [] []
+              , span [ class "" ]
+                [ text "Ratio: "
                 , text (humanFriendlyContrastRatio ratio)
+                ]
               ]
       in
         if ratio >= 4.5 then 
