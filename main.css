@@ -2590,3 +2590,9 @@ td[scope='row'] > div .usa-matrix-desc {
   content: '✔ Passes 4.5';
   background: green;
 }
+.tiny-swatch {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin-left: 4px;
+}
