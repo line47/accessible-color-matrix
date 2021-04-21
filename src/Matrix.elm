@@ -66,7 +66,7 @@ matrixTableRow palette =
     rowHeaderCell entry =
       li [ class "grid-item grid-item-main" ]
         [ div [ class "swatch", style (squareBgStyle entry) ]
-           [ div [ class "usa-color-inner-content" ]
+           [ div [ class "usa-color-inner-content" ] 
             [ text (capFirst entry.name)
             , text " background "
             , br [] []
@@ -89,6 +89,7 @@ matrixTableRow palette =
               [ text (capFirst foreground.name) 
               , text ": "
               , span [] [ text (paletteEntryHex foreground) ]
+              , span [class "tiny-swatch", style (squareBgStyle foreground)] [  ]
               , br [] []
               , text (capFirst background.name) 
               , text ": "
@@ -109,6 +110,7 @@ matrixTableRow palette =
              [ text (capFirst foreground.name) 
               , text ": "
               , span [] [ text (paletteEntryHex foreground) ]
+              , span [class "tiny-swatch", style (squareBgStyle foreground)] [  ]
               , br [] []
               , text (capFirst background.name) 
               , text ": "
@@ -131,6 +133,7 @@ matrixTableRow palette =
                [ text (capFirst foreground.name) 
               , text ": "
               , span [] [ text (paletteEntryHex foreground) ]
+              , span [class "tiny-swatch", style (squareBgStyle foreground)] [  ]
               , br [] []
               , text (capFirst background.name) 
               , text ": "
