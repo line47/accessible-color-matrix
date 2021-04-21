@@ -10821,11 +10821,7 @@
 		};
 		return A2(
 			_elm_lang$html$Html$div,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class('usa-grid-full usa-color-row'),
-				_1: {ctor: '[]'}
-			},
+			{ctor: '[]'},
 			model.isEditing ? saveOrCancel : edit);
 	};
 	var _toolness$accessible_color_matrix$Main$LoadPalette = function (a) {
