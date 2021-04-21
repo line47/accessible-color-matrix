@@ -9392,25 +9392,30 @@
 	};
 
 	var _toolness$accessible_color_matrix$ContrastRatio$humanFriendlyContrastRatio = function (ratio) {
-		var numDigits = (_elm_lang$core$Native_Utils.cmp(ratio, 4) < 0) ? 1 : ((_elm_lang$core$Native_Utils.cmp(ratio, 5) < 0) ? 2 : 0);
+		var numDigits = (_elm_lang$core$Native_Utils.cmp(ratio, 4) < 0) ? 2 : ((_elm_lang$core$Native_Utils.cmp(ratio, 5) < 0) ? 2 : 2);
 		var decimalPart = function (numDigits) {
 			return _elm_lang$core$Basics$toString(
 				_elm_lang$core$Basics$floor(
 					(ratio - _elm_lang$core$Basics$toFloat(
 						_elm_lang$core$Basics$floor(ratio))) * Math.pow(10, numDigits)));
 		};
-		var intPart = _elm_lang$core$Basics$toString(
-			_elm_lang$core$Basics$floor(ratio));
+		var expanded = _elm_lang$core$Basics$toString(
+			_elm_lang$core$Basics$floor(
+				ratio * Math.pow(10, 2)));
 		return A2(
 			_elm_lang$core$Basics_ops['++'],
-			intPart,
-			A2(
+			(_elm_lang$core$Native_Utils.cmp(numDigits, 0) > 0) ? A2(
 				_elm_lang$core$Basics_ops['++'],
-				(_elm_lang$core$Native_Utils.cmp(numDigits, 0) > 0) ? A2(
+				A3(_elm_lang$core$String$slice, 0, -2, expanded),
+				A2(
 					_elm_lang$core$Basics_ops['++'],
 					'.',
-					decimalPart(numDigits)) : '',
-				':1'));
+					A3(
+						_elm_lang$core$String$slice,
+						-2,
+						_elm_lang$core$String$length(expanded),
+						expanded))) : '',
+			':1');
 	};
 	var _toolness$accessible_color_matrix$ContrastRatio$luminance = function (c) {
 		var process = function (channel) {
@@ -10149,7 +10154,7 @@
 									_toolness$accessible_color_matrix$Matrix$capFirst(foreground.name)),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html$text(' text '),
+									_0: _elm_lang$html$Html$text(': '),
 									_1: {
 										ctor: '::',
 										_0: A2(
@@ -10163,62 +10168,54 @@
 											}),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html$text(' on '),
+											_0: A2(
+												_elm_lang$html$Html$br,
+												{ctor: '[]'},
+												{ctor: '[]'}),
 											_1: {
 												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$br,
-													{ctor: '[]'},
-													{ctor: '[]'}),
+												_0: _elm_lang$html$Html$text(
+													_toolness$accessible_color_matrix$Matrix$capFirst(background.name)),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html$text(
-														_toolness$accessible_color_matrix$Matrix$capFirst(background.name)),
+													_0: _elm_lang$html$Html$text(': '),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html$text(' background '),
+														_0: A2(
+															_elm_lang$html$Html$span,
+															{ctor: '[]'},
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html$text(
+																	_toolness$accessible_color_matrix$Palette$paletteEntryHex(background)),
+																_1: {ctor: '[]'}
+															}),
 														_1: {
 															ctor: '::',
 															_0: A2(
-																_elm_lang$html$Html$span,
+																_elm_lang$html$Html$br,
 																{ctor: '[]'},
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text(
-																		_toolness$accessible_color_matrix$Palette$paletteEntryHex(background)),
-																	_1: {ctor: '[]'}
-																}),
+																{ctor: '[]'}),
 															_1: {
 																ctor: '::',
 																_0: A2(
-																	_elm_lang$html$Html$br,
-																	{ctor: '[]'},
-																	{ctor: '[]'}),
-																_1: {
-																	ctor: '::',
-																	_0: A2(
-																		_elm_lang$html$Html$span,
-																		{
+																	_elm_lang$html$Html$span,
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$class(''),
+																		_1: {ctor: '[]'}
+																	},
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html$text('Ratio: '),
+																		_1: {
 																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$class(''),
+																			_0: _elm_lang$html$Html$text(
+																				_toolness$accessible_color_matrix$ContrastRatio$humanFriendlyContrastRatio(ratio)),
 																			_1: {ctor: '[]'}
-																		},
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html$text('  has a contrast ratio of '),
-																			_1: {
-																				ctor: '::',
-																				_0: _elm_lang$html$Html$text(
-																					_toolness$accessible_color_matrix$ContrastRatio$humanFriendlyContrastRatio(ratio)),
-																				_1: {
-																					ctor: '::',
-																					_0: _elm_lang$html$Html$text('.'),
-																					_1: {ctor: '[]'}
-																				}
-																			}
-																		}),
-																	_1: {ctor: '[]'}
-																}
+																		}
+																	}),
+																_1: {ctor: '[]'}
 															}
 														}
 													}
@@ -10270,7 +10267,7 @@
 									_toolness$accessible_color_matrix$Matrix$capFirst(foreground.name)),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html$text(' text '),
+									_0: _elm_lang$html$Html$text(': '),
 									_1: {
 										ctor: '::',
 										_0: A2(
@@ -10284,62 +10281,54 @@
 											}),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html$text(' on '),
+											_0: A2(
+												_elm_lang$html$Html$br,
+												{ctor: '[]'},
+												{ctor: '[]'}),
 											_1: {
 												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$br,
-													{ctor: '[]'},
-													{ctor: '[]'}),
+												_0: _elm_lang$html$Html$text(
+													_toolness$accessible_color_matrix$Matrix$capFirst(background.name)),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html$text(
-														_toolness$accessible_color_matrix$Matrix$capFirst(background.name)),
+													_0: _elm_lang$html$Html$text(': '),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html$text(' background '),
+														_0: A2(
+															_elm_lang$html$Html$span,
+															{ctor: '[]'},
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html$text(
+																	_toolness$accessible_color_matrix$Palette$paletteEntryHex(background)),
+																_1: {ctor: '[]'}
+															}),
 														_1: {
 															ctor: '::',
 															_0: A2(
-																_elm_lang$html$Html$span,
+																_elm_lang$html$Html$br,
 																{ctor: '[]'},
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text(
-																		_toolness$accessible_color_matrix$Palette$paletteEntryHex(background)),
-																	_1: {ctor: '[]'}
-																}),
+																{ctor: '[]'}),
 															_1: {
 																ctor: '::',
 																_0: A2(
-																	_elm_lang$html$Html$br,
-																	{ctor: '[]'},
-																	{ctor: '[]'}),
-																_1: {
-																	ctor: '::',
-																	_0: A2(
-																		_elm_lang$html$Html$span,
-																		{
+																	_elm_lang$html$Html$span,
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$class(''),
+																		_1: {ctor: '[]'}
+																	},
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html$text('Ratio: '),
+																		_1: {
 																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$class(''),
+																			_0: _elm_lang$html$Html$text(
+																				_toolness$accessible_color_matrix$ContrastRatio$humanFriendlyContrastRatio(ratio)),
 																			_1: {ctor: '[]'}
-																		},
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html$text('  has a contrast ratio of '),
-																			_1: {
-																				ctor: '::',
-																				_0: _elm_lang$html$Html$text(
-																					_toolness$accessible_color_matrix$ContrastRatio$humanFriendlyContrastRatio(ratio)),
-																				_1: {
-																					ctor: '::',
-																					_0: _elm_lang$html$Html$text('.'),
-																					_1: {ctor: '[]'}
-																				}
-																			}
-																		}),
-																	_1: {ctor: '[]'}
-																}
+																		}
+																	}),
+																_1: {ctor: '[]'}
 															}
 														}
 													}
@@ -10362,83 +10351,72 @@
 						},
 						{
 							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$div,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class(''),
-									_1: {ctor: '[]'}
-								},
-								{ctor: '[]'}),
+							_0: _elm_lang$html$Html$text(
+								_toolness$accessible_color_matrix$Matrix$capFirst(foreground.name)),
 							_1: {
 								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$span,
-									{ctor: '[]'},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text(
-											_toolness$accessible_color_matrix$Matrix$capFirst(foreground.name)),
-										_1: {ctor: '[]'}
-									}),
+								_0: _elm_lang$html$Html$text(': '),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html$text(' text '),
+									_0: A2(
+										_elm_lang$html$Html$span,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text(
+												_toolness$accessible_color_matrix$Palette$paletteEntryHex(foreground)),
+											_1: {ctor: '[]'}
+										}),
 									_1: {
 										ctor: '::',
 										_0: A2(
-											_elm_lang$html$Html$span,
+											_elm_lang$html$Html$br,
 											{ctor: '[]'},
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html$text(
-													_toolness$accessible_color_matrix$Palette$paletteEntryHex(foreground)),
-												_1: {ctor: '[]'}
-											}),
+											{ctor: '[]'}),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html$text(' on '),
+											_0: _elm_lang$html$Html$text(
+												_toolness$accessible_color_matrix$Matrix$capFirst(background.name)),
 											_1: {
 												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$br,
-													{ctor: '[]'},
-													{ctor: '[]'}),
+												_0: _elm_lang$html$Html$text(': '),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html$text(
-														_toolness$accessible_color_matrix$Matrix$capFirst(background.name)),
+													_0: A2(
+														_elm_lang$html$Html$span,
+														{ctor: '[]'},
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html$text(
+																_toolness$accessible_color_matrix$Palette$paletteEntryHex(background)),
+															_1: {ctor: '[]'}
+														}),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$html$Html$text(' background '),
+														_0: A2(
+															_elm_lang$html$Html$br,
+															{ctor: '[]'},
+															{ctor: '[]'}),
 														_1: {
 															ctor: '::',
 															_0: A2(
 																_elm_lang$html$Html$span,
-																{ctor: '[]'},
 																{
 																	ctor: '::',
-																	_0: _elm_lang$html$Html$text(
-																		_toolness$accessible_color_matrix$Palette$paletteEntryHex(background)),
+																	_0: _elm_lang$html$Html_Attributes$class(''),
 																	_1: {ctor: '[]'}
-																}),
-															_1: {
-																ctor: '::',
-																_0: A2(
-																	_elm_lang$html$Html$br,
-																	{ctor: '[]'},
-																	{ctor: '[]'}),
-																_1: {
+																},
+																{
 																	ctor: '::',
-																	_0: _elm_lang$html$Html$text('fails with a contrast ratio of '),
+																	_0: _elm_lang$html$Html$text('Ratio: '),
 																	_1: {
 																		ctor: '::',
 																		_0: _elm_lang$html$Html$text(
 																			_toolness$accessible_color_matrix$ContrastRatio$humanFriendlyContrastRatio(ratio)),
 																		_1: {ctor: '[]'}
 																	}
-																}
-															}
+																}),
+															_1: {ctor: '[]'}
 														}
 													}
 												}
@@ -10563,7 +10541,7 @@
 				}
 			});
 	};
-	var _toolness$accessible_color_matrix$Matrix$badContrastLegendText = '\n  Please don\'t use these color combinations; they do not meet a 3:1 color\n  contrast ratio, so they do not conform with the standards of\n  Section 508 for body text. This means that some people would have\n  difficulty reading the text. Employing accessibility best practices\n  improves the user experience for all users.\n';
+	var _toolness$accessible_color_matrix$Matrix$badContrastLegendText = '\n  Please don\'t use these color combinations; they do not meet a 3.1 color\n  contrast ratio. This means that some people would have\n  difficulty reading the text. Employing accessibility best practices\n  improves the user experience for all users.\n';
 	var _toolness$accessible_color_matrix$Matrix$legend = A2(
 		_elm_lang$html$Html$div,
 		{
