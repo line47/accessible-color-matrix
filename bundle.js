@@ -9392,7 +9392,7 @@
 	};
 
 	var _toolness$accessible_color_matrix$ContrastRatio$humanFriendlyContrastRatio = function (ratio) {
-		var numDigits = (_elm_lang$core$Native_Utils.cmp(ratio, 8) < 0) ? 2 : ((_elm_lang$core$Native_Utils.cmp(ratio, 5) < 0) ? 1 : 0);
+		var numDigits = (_elm_lang$core$Native_Utils.cmp(ratio, 4) < 0) ? 1 : ((_elm_lang$core$Native_Utils.cmp(ratio, 5) < 0) ? 2 : 0);
 		var decimalPart = function (numDigits) {
 			return _elm_lang$core$Basics$toString(
 				_elm_lang$core$Basics$floor(
@@ -10109,11 +10109,132 @@
 		var rowComboCell = F2(
 			function (background, foreground) {
 				var ratio = A2(_toolness$accessible_color_matrix$ContrastRatio$contrastRatio, background.color, foreground.color);
-				var validCell = A2(
+				var fourFiveValidCell = A2(
 					_elm_lang$html$Html$li,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('grid-item usa-matrix-valid-color-combo'),
+						_0: _elm_lang$html$Html_Attributes$class('grid-item usa-matrix-valid-color-combo valid-4-5'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$style(
+								_toolness$accessible_color_matrix$Palette$squareBgStyle(background)),
+							_1: {ctor: '[]'}
+						}
+					},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('usa-matrix-color-combo-description'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$style(
+										{
+											ctor: '::',
+											_0: {
+												ctor: '_Tuple2',
+												_0: 'color',
+												_1: _toolness$accessible_color_matrix$Palette$paletteEntryHex(foreground)
+											},
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(
+									_toolness$accessible_color_matrix$Matrix$capFirst(foreground.name)),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(' text '),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$span,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text(
+													_toolness$accessible_color_matrix$Palette$paletteEntryHex(foreground)),
+												_1: {ctor: '[]'}
+											}),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html$text(' on '),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$br,
+													{ctor: '[]'},
+													{ctor: '[]'}),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html$text(
+														_toolness$accessible_color_matrix$Matrix$capFirst(background.name)),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html$text(' background '),
+														_1: {
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$span,
+																{ctor: '[]'},
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html$text(
+																		_toolness$accessible_color_matrix$Palette$paletteEntryHex(background)),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$br,
+																	{ctor: '[]'},
+																	{ctor: '[]'}),
+																_1: {
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$span,
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Attributes$class(''),
+																			_1: {ctor: '[]'}
+																		},
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html$text('  has a contrast ratio of '),
+																			_1: {
+																				ctor: '::',
+																				_0: _elm_lang$html$Html$text(
+																					_toolness$accessible_color_matrix$ContrastRatio$humanFriendlyContrastRatio(ratio)),
+																				_1: {
+																					ctor: '::',
+																					_0: _elm_lang$html$Html$text('.'),
+																					_1: {ctor: '[]'}
+																				}
+																			}
+																		}),
+																	_1: {ctor: '[]'}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}),
+						_1: {ctor: '[]'}
+					});
+				var threeOneValidCell = A2(
+					_elm_lang$html$Html$li,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('grid-item usa-matrix-valid-color-combo valid-3-1'),
 						_1: {
 							ctor: '::',
 							_0: _elm_lang$html$Html_Attributes$style(
@@ -10328,7 +10449,7 @@
 							}
 						});
 				}();
-				return (_elm_lang$core$Native_Utils.cmp(ratio, 4.5) > -1) ? validCell : invalidCell;
+				return (_elm_lang$core$Native_Utils.cmp(ratio, 4.5) > -1) ? fourFiveValidCell : (((_elm_lang$core$Native_Utils.cmp(ratio, 3.1) > -1) && (_elm_lang$core$Native_Utils.cmp(ratio, 4.5) < 0)) ? threeOneValidCell : invalidCell);
 			});
 		var rowHeaderCell = function (entry) {
 			return A2(
@@ -10442,7 +10563,7 @@
 				}
 			});
 	};
-	var _toolness$accessible_color_matrix$Matrix$badContrastLegendText = '\n  Please don\'t use these color combinations; they do not meet a color\n  contrast ratio of 4.5:1, so they do not conform with the standards of\n  Section 508 for body text. This means that some people would have\n  difficulty reading the text. Employing accessibility best practices\n  improves the user experience for all users.\n';
+	var _toolness$accessible_color_matrix$Matrix$badContrastLegendText = '\n  Please don\'t use these color combinations; they do not meet a 3:1 color\n  contrast ratio, so they do not conform with the standards of\n  Section 508 for body text. This means that some people would have\n  difficulty reading the text. Employing accessibility best practices\n  improves the user experience for all users.\n';
 	var _toolness$accessible_color_matrix$Matrix$legend = A2(
 		_elm_lang$html$Html$div,
 		{
