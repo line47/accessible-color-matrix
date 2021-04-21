@@ -2531,8 +2531,7 @@ td[scope='row'] > div .usa-matrix-desc {
   display: grid;
   grid-template-columns: auto;
   justify-content: start;
-  grid-template-columns: 40px 50px auto 50px 40px;
-  grid-template-rows: 25% 100px auto;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 .grid-item {
   list-style: none;
@@ -2547,6 +2546,7 @@ td[scope='row'] > div .usa-matrix-desc {
   font-weight: bold;
   padding: 0;
   margin: 0;
+  grid-column: 1 / 5;
 }
 
 .usa-matrix-invalid-color-combo,
