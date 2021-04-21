@@ -2249,11 +2249,6 @@ h2.styleguide-header {
 .usa-primary-color-section {
   margin-bottom: 0;
 }
-@media screen and (min-width: 600px) {
-  .usa-primary-color-section {
-    margin-bottom: 8rem;
-  }
-}
 
 .usa-color-inner-content {
   padding: 8px;
