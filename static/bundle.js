@@ -10169,53 +10169,69 @@
 										_1: {
 											ctor: '::',
 											_0: A2(
-												_elm_lang$html$Html$br,
-												{ctor: '[]'},
+												_elm_lang$html$Html$span,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('tiny-swatch'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$style(
+															_toolness$accessible_color_matrix$Palette$squareBgStyle(foreground)),
+														_1: {ctor: '[]'}
+													}
+												},
 												{ctor: '[]'}),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html$text(
-													_toolness$accessible_color_matrix$Matrix$capFirst(background.name)),
+												_0: A2(
+													_elm_lang$html$Html$br,
+													{ctor: '[]'},
+													{ctor: '[]'}),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html$text(': '),
+													_0: _elm_lang$html$Html$text(
+														_toolness$accessible_color_matrix$Matrix$capFirst(background.name)),
 													_1: {
 														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$span,
-															{ctor: '[]'},
-															{
-																ctor: '::',
-																_0: _elm_lang$html$Html$text(
-																	_toolness$accessible_color_matrix$Palette$paletteEntryHex(background)),
-																_1: {ctor: '[]'}
-															}),
+														_0: _elm_lang$html$Html$text(': '),
 														_1: {
 															ctor: '::',
 															_0: A2(
-																_elm_lang$html$Html$br,
+																_elm_lang$html$Html$span,
 																{ctor: '[]'},
-																{ctor: '[]'}),
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html$text(
+																		_toolness$accessible_color_matrix$Palette$paletteEntryHex(background)),
+																	_1: {ctor: '[]'}
+																}),
 															_1: {
 																ctor: '::',
 																_0: A2(
-																	_elm_lang$html$Html$span,
-																	{
-																		ctor: '::',
-																		_0: _elm_lang$html$Html_Attributes$class(''),
-																		_1: {ctor: '[]'}
-																	},
-																	{
-																		ctor: '::',
-																		_0: _elm_lang$html$Html$text('Ratio: '),
-																		_1: {
+																	_elm_lang$html$Html$br,
+																	{ctor: '[]'},
+																	{ctor: '[]'}),
+																_1: {
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$span,
+																		{
 																			ctor: '::',
-																			_0: _elm_lang$html$Html$text(
-																				_toolness$accessible_color_matrix$ContrastRatio$humanFriendlyContrastRatio(ratio)),
+																			_0: _elm_lang$html$Html_Attributes$class(''),
 																			_1: {ctor: '[]'}
-																		}
-																	}),
-																_1: {ctor: '[]'}
+																		},
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html$text('Ratio: '),
+																			_1: {
+																				ctor: '::',
+																				_0: _elm_lang$html$Html$text(
+																					_toolness$accessible_color_matrix$ContrastRatio$humanFriendlyContrastRatio(ratio)),
+																				_1: {ctor: '[]'}
+																			}
+																		}),
+																	_1: {ctor: '[]'}
+																}
 															}
 														}
 													}
@@ -10282,6 +10298,125 @@
 										_1: {
 											ctor: '::',
 											_0: A2(
+												_elm_lang$html$Html$span,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('tiny-swatch'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$style(
+															_toolness$accessible_color_matrix$Palette$squareBgStyle(foreground)),
+														_1: {ctor: '[]'}
+													}
+												},
+												{ctor: '[]'}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$br,
+													{ctor: '[]'},
+													{ctor: '[]'}),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html$text(
+														_toolness$accessible_color_matrix$Matrix$capFirst(background.name)),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html$text(': '),
+														_1: {
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$span,
+																{ctor: '[]'},
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html$text(
+																		_toolness$accessible_color_matrix$Palette$paletteEntryHex(background)),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$br,
+																	{ctor: '[]'},
+																	{ctor: '[]'}),
+																_1: {
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$span,
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Attributes$class(''),
+																			_1: {ctor: '[]'}
+																		},
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html$text('Ratio: '),
+																			_1: {
+																				ctor: '::',
+																				_0: _elm_lang$html$Html$text(
+																					_toolness$accessible_color_matrix$ContrastRatio$humanFriendlyContrastRatio(ratio)),
+																				_1: {ctor: '[]'}
+																			}
+																		}),
+																	_1: {ctor: '[]'}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}),
+						_1: {ctor: '[]'}
+					});
+				var invalidCell = function () {
+					var desc = A3(_toolness$accessible_color_matrix$Matrix$badContrastText, background, foreground, ratio);
+					return A2(
+						_elm_lang$html$Html$li,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('grid-item usa-matrix-invalid-color-combo'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(
+								_toolness$accessible_color_matrix$Matrix$capFirst(foreground.name)),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(': '),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$span,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text(
+												_toolness$accessible_color_matrix$Palette$paletteEntryHex(foreground)),
+											_1: {ctor: '[]'}
+										}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$span,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$class('tiny-swatch'),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$style(
+														_toolness$accessible_color_matrix$Palette$squareBgStyle(foreground)),
+													_1: {ctor: '[]'}
+												}
+											},
+											{ctor: '[]'}),
+										_1: {
+											ctor: '::',
+											_0: A2(
 												_elm_lang$html$Html$br,
 												{ctor: '[]'},
 												{ctor: '[]'}),
@@ -10330,93 +10465,6 @@
 																	}),
 																_1: {ctor: '[]'}
 															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}),
-						_1: {ctor: '[]'}
-					});
-				var invalidCell = function () {
-					var desc = A3(_toolness$accessible_color_matrix$Matrix$badContrastText, background, foreground, ratio);
-					return A2(
-						_elm_lang$html$Html$li,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('grid-item usa-matrix-invalid-color-combo'),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text(
-								_toolness$accessible_color_matrix$Matrix$capFirst(foreground.name)),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html$text(': '),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$span,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html$text(
-												_toolness$accessible_color_matrix$Palette$paletteEntryHex(foreground)),
-											_1: {ctor: '[]'}
-										}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$br,
-											{ctor: '[]'},
-											{ctor: '[]'}),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html$text(
-												_toolness$accessible_color_matrix$Matrix$capFirst(background.name)),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html$text(': '),
-												_1: {
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$span,
-														{ctor: '[]'},
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html$text(
-																_toolness$accessible_color_matrix$Palette$paletteEntryHex(background)),
-															_1: {ctor: '[]'}
-														}),
-													_1: {
-														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$br,
-															{ctor: '[]'},
-															{ctor: '[]'}),
-														_1: {
-															ctor: '::',
-															_0: A2(
-																_elm_lang$html$Html$span,
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$class(''),
-																	_1: {ctor: '[]'}
-																},
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text('Ratio: '),
-																	_1: {
-																		ctor: '::',
-																		_0: _elm_lang$html$Html$text(
-																			_toolness$accessible_color_matrix$ContrastRatio$humanFriendlyContrastRatio(ratio)),
-																		_1: {ctor: '[]'}
-																	}
-																}),
-															_1: {ctor: '[]'}
 														}
 													}
 												}
