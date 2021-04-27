@@ -2584,7 +2584,7 @@ td[scope='row'] > div .usa-matrix-desc {
 
 .valid-3-1:after {
   content: '✔ Passes 3.1';
-  background: green;
+  background: blue;
 }
 .valid-4-5:after {
   content: '✔ Passes 4.5';
@@ -2595,4 +2595,14 @@ td[scope='row'] > div .usa-matrix-desc {
   width: 15px;
   height: 15px;
   margin-left: 4px;
+}
+
+.valid-4-5 {
+  order: 0;
+}
+.valid-3-1 {
+  order: 1;
+}
+.invalid {
+  order: 2;
 }

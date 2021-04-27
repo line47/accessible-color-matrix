@@ -129,7 +129,7 @@ matrixTableRow palette =
           let
             desc = badContrastText background foreground ratio
           in
-            li [ class "grid-item usa-matrix-invalid-color-combo" ]
+            li [ class "grid-item usa-matrix-invalid-color-combo invalid" ]
                [ text (capFirst foreground.name) 
               , text ": "
               , span [] [ text (paletteEntryHex foreground) ]
